@@ -1,0 +1,28 @@
+vector<int> ss,mark;
+int  dfs(int node,int p){
+	ss[node]=1;
+	for(int &i:edge[node]){
+		if(i==p || mark[i]) continue;
+		ss[node]+=dfs(i,node);
+	}
+	return ss[node];
+}
+
+int gc(int node,int sts,int p){
+	for(int &i:edge[node]){
+		if(i==p || mark[i]) continue;
+		if(2*ss[i]>sts) return gc(i,sts,node);
+	}
+	return node;
+}
+
+void nc(int node){
+	int C=gc(node,dfs(node,0),0);
+	mark[C]=1;
+	for(int &i:edge[node]){
+		if(mark[i]) continue;
+		nc(i);
+	}
+}
+
+
